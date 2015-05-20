@@ -1,0 +1,8 @@
+prefix=/home/limek/qr_ws/install
+
+Name: decode_qr
+Description: Description of decode_qr
+Version: 0.0.0
+Cflags: -I/home/limek/qr_ws/install/include
+Libs: -L/home/limek/qr_ws/install/lib 
+Requires: 

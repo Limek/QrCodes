@@ -1,0 +1,36 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/limek/qr_ws/src/decode_qr/include/decode_qr/decode_qr_code.cpp
+decode_qr_code.h
+/home/limek/qr_ws/src/decode_qr/include/decode_qr/decode_qr_code.h
+stdio.h
+-
+iostream
+-
+
+/home/limek/qr_ws/src/decode_qr/include/decode_qr/decode_qr_code.h
+stdio.h
+-
+iostream
+-
+opencv2/opencv.hpp
+-
+opencv2/imgproc/imgproc.hpp
+-
+opencv2/objdetect/objdetect.hpp
+-
+opencv2/highgui/highgui.hpp
+-
+opencv/cv.h
+/home/limek/qr_ws/src/decode_qr/include/decode_qr/opencv/cv.h
+vector
+-
+zbar.h
+/home/limek/qr_ws/src/decode_qr/include/decode_qr/zbar.h
+

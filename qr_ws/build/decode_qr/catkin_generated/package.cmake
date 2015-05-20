@@ -1,0 +1,7 @@
+set(_CATKIN_CURRENT_PACKAGE "decode_qr")
+set(decode_qr_MAINTAINER "limek <limek@gmail.com>")
+set(decode_qr_DEPRECATED "")
+set(decode_qr_VERSION "0.0.0")
+set(decode_qr_BUILD_DEPENDS "roscpp" "rospy" "std_msgs")
+set(decode_qr_RUN_DEPENDS "roscpp" "rospy" "std_msgs")
+set(decode_qr_BUILDTOOL_DEPENDS "catkin")

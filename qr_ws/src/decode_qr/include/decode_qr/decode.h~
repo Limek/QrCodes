@@ -1,0 +1,24 @@
+#ifndef _decode_h_
+#define _decode_h_
+
+#include <stdio.h>
+#include <iostream>
+#include <opencv2/imgproc/imgproc.hpp>
+#include <opencv2/highgui/highgui.hpp>
+#include "opencv/cv.h"
+
+using namespace std;
+
+class kod_qr
+{
+	private:
+	//Mat img;
+	int c;
+	public:
+	void fun(int a);
+
+
+
+};
+
+#endif

@@ -1,0 +1,33 @@
+#ifndef decode_qr_code_h
+#define decode_qr_code_h
+
+#include <stdio.h>
+#include <iostream>
+//#include <opencv2/imgproc/imgproc.hpp>
+//#include <opencv2/highgui/highgui.hpp>
+//#include "opencv/cv.h"
+
+#include <opencv2/opencv.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
+#include <opencv2/objdetect/objdetect.hpp>
+#include <opencv2/highgui/highgui.hpp>
+#include "opencv/cv.h"
+
+#include "zbar.h"
+
+using namespace std;
+using namespace cv;
+
+class code_qr
+{
+	private:
+	Mat img;
+	public:
+	void fun(int a);
+	void decoder(Mat *img_qr, string &message);
+
+
+
+};
+
+#endif

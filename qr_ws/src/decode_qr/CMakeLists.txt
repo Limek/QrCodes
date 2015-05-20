@@ -1,0 +1,226 @@
+## Podstawowe elementy CmakeLists
+cmake_minimum_required(VERSION 2.8.3)
+project(decode_qr)
+
+## Find catkin macros and libraries
+## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
+## is used, also find other catkin packages
+
+find_package(catkin REQUIRED COMPONENTS
+	roscpp
+	rospy
+	std_msgs
+	genmsg
+)
+
+## OpenCV - dodanie pakietu do projektu
+
+find_package( OpenCV REQUIRED )
+
+## System dependencies are found with CMake's conventions
+# find_package(Boost REQUIRED COMPONENTS system)
+
+## Uncomment this if the package has a setup.py. This macro ensures
+## modules and global scripts declared therein get installed
+## See http://ros.org/doc/api/catkin/html/user_guide/setup_dot_py.html
+# catkin_python_setup()
+
+################################################
+## Declare ROS messages, services and actions ##
+################################################
+
+## To declare and build messages, services or actions from within this
+## package, follow these steps:
+## * Let MSG_DEP_SET be the set of packages whose message types you use in
+##   your messages/services/actions (e.g. std_msgs, actionlib_msgs, ...).
+## * In the file package.xml:
+##   * add a build_depend and a run_depend tag for each package in MSG_DEP_SET
+##   * If MSG_DEP_SET isn't empty the following dependencies might have been
+##     pulled in transitively but can be declared for certainty nonetheless:
+##     * add a build_depend tag for "message_generation"
+##     * add a run_depend tag for "message_runtime"
+## * In this file (CMakeLists.txt):
+##   * add "message_generation" and every package in MSG_DEP_SET to
+##     find_package(catkin REQUIRED COMPONENTS ...)
+##   * add "message_runtime" and every package in MSG_DEP_SET to
+##     catkin_package(CATKIN_DEPENDS ...)
+##   * uncomment the add_*_files sections below as needed
+##     and list every .msg/.srv/.action file to be processed
+##   * uncomment the generate_messages entry below
+##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
+
+## Generate messages in the 'msg' folder
+# add_message_files(
+#   FILES
+#   Message1.msg
+#   Message2.msg
+# )
+
+## Generate services in the 'srv' folder
+# add_service_files(
+#   FILES
+#   Service1.srv
+#   Service2.srv
+# )
+
+## Generate actions in the 'action' folder
+# add_action_files(
+#   FILES
+#   Action1.action
+#   Action2.action
+# )
+
+## Generate added messages and services with any dependencies listed here
+generate_messages(
+	DEPENDENCIES
+	std_msgs
+)
+
+###################################
+## catkin specific configuration ##
+###################################
+## The catkin_package macro generates cmake config files for your package
+## Declare things to be passed to dependent projects
+## INCLUDE_DIRS: uncomment this if you package contains header files
+## LIBRARIES: libraries you create in this project that dependent projects also need
+## CATKIN_DEPENDS: catkin_packages dependent projects also need
+## DEPENDS: system dependencies of this project that dependent projects also need
+
+## SPECYFICZNE USTAWIENIA dla CATKINA
+ 
+catkin_package(
+	INCLUDE_DIRS include   # Dodane jeśli projekt zawiera własne (stworzone w ramach projektu) pliki nagłówkowe
+	LIBRARIES ${decode_qr} # Dodane jeśli projekt zawiera własne (stworzone w ramach projektu) biblioteki 
+	#CATKIN_DEPENDS roscpp rospy std_msgs #cv_bridge image_transport
+	DEPENDS opencv 	 # Dodane jeśli projekt korzysta z bibliotek zewnętrznych takich jak opencv, opengl...
+)
+
+###########
+## Build ##
+###########
+
+## Specify additional locations of header files
+## Your package locations should be listed before other locations 
+#include_directories( src/headers_decode ) 
+include_directories( include/decode_qr ) # Wyszczególnienie gdzie znajdują się pliki nagłówkowe użyte w pliku wykonawczym (main)
+# (Limek - nie jestem pewny czy poniższe nie jest potrzebne przy pierwszej kompilacji i nie pozostawia śladu w buildzie)
+include_directories( ${OpenCV_INCLUDE_DIRS} )
+include_directories(include ${catkin_INCLUDE_DIRS} ${OpenCV_INCLUDE_DIRS} zbar)
+
+#include_directories(
+  #${catkin_INCLUDE_DIRS}
+  #${OpenCV_INCLUDE_DIRS}
+  #${catkin_INCLUDE_DIRS}/include zbar
+#)
+
+## Declare a cpp library
+# add_library(decode_qr
+#   src/${PROJECT_NAME}/decode_qr.cpp
+# )
+
+## Declare a cpp executable
+# add_executable(decode_qr_node src/decode_qr_node.cpp)
+
+## Add cmake target dependencies of the executable/library
+## as an example, message headers may need to be generated before nodes
+# add_dependencies(decode_qr_node decode_qr_generate_messages_cpp)
+
+## Specify libraries to link a library or executable target against
+# target_link_libraries(decode_qr_node
+#   ${catkin_LIBRARIES}
+# )
+
+#############
+## Install ##
+#############
+
+# all install targets should use catkin DESTINATION variables
+# See http://ros.org/doc/api/catkin/html/adv_user_guide/variables.html
+
+## Mark executable scripts (Python etc.) for installation
+## in contrast to setup.py, you can choose the destination
+# install(PROGRAMS
+#   scripts/my_python_script
+#   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+# )
+
+## Mark executables and/or libraries for installation
+# install(TARGETS decode_qr decode_qr_node
+#   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+#   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+#   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+# )
+
+## Mark cpp header files for installation
+# install(DIRECTORY include/${PROJECT_NAME}/
+#   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+#   FILES_MATCHING PATTERN "*.h"
+#   PATTERN ".svn" EXCLUDE
+# )
+
+## Mark other files for installation (e.g. launch and bag files, etc.)
+# install(FILES
+#   # myfile1
+#   # myfile2
+#   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+# )
+
+#include_directories(include ${catkin_INCLUDE_DIRS})
+#include_directories(include ${catkin_INCLUDE_DIRS} zbar)
+
+#######################
+## DECODE QR LIBRARY ##
+#######################
+ 
+
+	file(GLOB DECODE_SOURCES
+        	"include/decode_qr/*.cpp" # lokalizacja headerów
+        )
+        file(GLOB DECODE_HEADERS
+		"include/decode_qr/*.h"   # lokalizacja plików source
+        )
+
+	ADD_LIBRARY(decode_qr_code 	  # utowrzenie biblioteki decode_qr_code
+		${DECODE_HEADERS}	  # z odpowiednich plików nagłówkowych
+		${DECODE_SOURCES}	  # oraz źródłowych
+	)		
+        TARGET_LINK_LIBRARIES(decode_qr_code # podanie zależności i bibliotek wykorzystanych do utworzenia biblioteki
+		zbar 			     # biblioteka zbar - bez tego nie ma dekodowania kodu QR !
+		${catkin_LIBRARIES} 	     # biblioteki catkina - ROS (np. dla możliwości publikowania i subskrybowania tematów)			
+		${OpenCV_LIBRARIES}	     # biblioteka OpenCV	
+	) 
+
+##########################
+## DECODE QR NODE (EXE) ##
+##########################
+
+	SET(DECODE_NODE_SOURCES src/decode.cpp) # ustawienie ścieżki do pliku main (i ewentualnie innych plików .cpp pliku wykonawczego)
+        ADD_EXECUTABLE(decode ${DECODE_NODE_SOURCES}) # utworzenie pliku wykonawczego z podaniem ścieżki
+        TARGET_LINK_LIBRARIES(decode decode_qr_code) # podanie zależności i bibliotek wykorzystywanych w pliku main
+	add_dependencies(decode decode_qr_generate_messages_cpp) # dependencies dla ROSa
+
+##########################
+## READER NODE (EXE) 	##
+##########################
+
+	add_executable(decoded_reader src/decoded_reader.cpp)
+	target_link_libraries(decoded_reader ${catkin_LIBRARIES})
+	add_dependencies(decoded_reader decode_qr_generate_messages_cpp)
+
+##########################
+## LOCATE NODE (EXE) 	##
+##########################
+
+	SET(LOCATE_NODE_SOURCES src/locate.cpp) # ustawienie ścieżki do pliku main (i ewentualnie innych plików .cpp pliku wykonawczego)
+        ADD_EXECUTABLE(locate ${LOCATE_NODE_SOURCES}) # utworzenie pliku wykonawczego z podaniem ścieżki
+        TARGET_LINK_LIBRARIES(locate decode_qr_code) # podanie zależności i bibliotek wykorzystywanych w pliku main
+	add_dependencies(locate decode_qr_generate_messages_cpp) # dependencies dla ROSa
+
+## Add gtest based cpp test target and link libraries
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_decode_qr.cpp)
+# if(TARGET ${PROJECT_NAME}-test)
+#   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
+# endif()
+
+## Add folders to be run by python nosetests
+# catkin_add_nosetests(test)
